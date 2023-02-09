@@ -122,4 +122,13 @@ class Visite
 
         return $this;
     }
+    
+    public function getDatecreationString () : string
+    {
+        if($this->datecreation == null){
+            return "";
+        }else{
+            return $this->datecreation->format('d/m/Y');
+        }
+    }
 }
