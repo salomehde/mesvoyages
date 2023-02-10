@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\VisiteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Visite;
+use App\Form\VisiteType;
 
 /**
  * Description of AdminVoyagesController
@@ -52,4 +53,25 @@ class AdminVoyagesController extends AbstractController {
         return $this->redirectToRoute('admin.voyages');  //redirige vers une route (ici, la même page)
     }
     
+    /**
+     * @Route("/admin/edit/{id}", name="admin.voyage.edit")
+     * @param Visite $visite
+     * paramètre qui contient l'éventuelle requête POST envoyée par le formulaire s'il a été soumis (clic sur le bouton submit)
+     * @param Request $request
+     * @return Response
+     */
+    public function edit(Visite $visite, Request $request): Response{
+        $formVisite = $this->createForm(VisiteType::class, $visite);
+        
+        $formVisite->handleRequest($request);
+        if($formVisite->isSubmitted() && $formVisite->isValid()){
+            $this->repository->add($visite, true);
+            return $this->redirectToRoute('admin.voyages'); //retour à la liste des visites
+        }
+        
+        return $this->render("admin/admin.voyage.edit.html.twig", [ 
+            'visite' => $visite, 
+            'formvisite' => $formVisite->createView() 
+        ]);
+    }
 }
