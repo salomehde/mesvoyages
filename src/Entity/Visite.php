@@ -43,7 +43,7 @@ class Visite
     private $tempmax;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
-    //#[Vich\UploadableField(mapping: 'visites', fileNameProperty: 'imageName')]
+    #[Vich\UploadableField(mapping: 'visites', fileNameProperty: 'imageName')]
     /**
      * @Vich\UploadableField(mapping="visites", fileNameProperty="imageName")
      * @Assert\Image(mimeTypes="image/jpeg")
