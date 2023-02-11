@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use DateTime;
+use DateTimeInterface;
 
 #[ORM\Entity(repositoryClass: VisiteRepository::class)]
 #[Vich\Uploadable]
@@ -42,11 +44,12 @@ class Visite
     #[ORM\Column(type: 'integer', nullable: true)]
     private $tempmax;
 
-    // NOTE: This is not a mapped field of entity metadata, just a simple property.
-    #[Vich\UploadableField(mapping: 'visites', fileNameProperty: 'imageName')]
-    /**
+    //#[Vich\UploadableField(mapping: 'visites', fileNameProperty: 'imageName')]
+      /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
      * @Vich\UploadableField(mapping="visites", fileNameProperty="imageName")
-     * @Assert\Image(mimeTypes="image/jpeg")
+     * 
      * @var File|null
      */
     private $imageFile;
