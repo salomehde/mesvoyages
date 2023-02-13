@@ -32,7 +32,10 @@ class Visite
     #[ORM\Column(type: 'date', nullable: true)]
     private $datecreation;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Range(min = 0, max = 20)
+     */
     private $note;
 
     #[ORM\Column(type: 'text', nullable: true)]
@@ -41,7 +44,10 @@ class Visite
     #[ORM\Column(type: 'integer', nullable: true)]
     private $tempmin;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\GreaterThan(propertyPath="tempmin")
+     */
     private $tempmax;
 
     //#[Vich\UploadableField(mapping: 'visites', fileNameProperty: 'imageName')]
