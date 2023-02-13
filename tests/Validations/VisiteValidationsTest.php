@@ -35,8 +35,11 @@ class VisiteValidationsTest extends KernelTestCase {
     } */
     
     public function testValidNoteVisite(){
-        $visite = $this->getVisite()->setNote(10);
-        $this->assertErrors($visite, 0);
+        //$visite = $this->getVisite()->setNote(10);
+        //$this->assertErrors($visite, 0);
+        $this->assertErrors($this->getVisite()->setNote(10), 0, "10 devrait réussir");
+        $this->assertErrors($this->getVisite()->setNote(0), 0, "0 devrait réussir");
+        $this->assertErrors($this->getVisite()->setNote(20), 0, "20 devrait réussir");
     }
     
     public function assertErrors(Visite $visite, int $nbErreursAttendues, string $message=""){
@@ -47,8 +50,26 @@ class VisiteValidationsTest extends KernelTestCase {
     }
     
     public function testNonValidNoteVisite(){
-        $visite = $this->getVisite()->setNote(21);
-        $this->assertErrors($visite, 1);
+        //$visite = $this->getVisite()->setNote(21);
+        //$this->assertErrors($visite, 1);
+        $this->assertErrors($this->getVisite()->setNote(21), 1, "21 devrait échouer");
+        $this->assertErrors($this->getVisite()->setNote(45), 1, "45 devrait échouer");
+        $this->assertErrors($this->getVisite()->setNote(-1), 1, "-1 devrait échouer");
+        $this->assertErrors($this->getVisite()->setNote(-5), 1, "-5 devrait échouer");
+    }
+    
+    public function testValidDatecreationVisite(){
+        $aujourdhui = new \DateTime();
+        $this->assertErrors($this->getVisite()->setDatecreation($aujourdhui), 0, "aujourd'hui devrait réussir");
+        $plustot = (new \DateTime())->sub(new \DateInterval("P5D"));
+        $this->assertErrors($this->getVisite()->setDatecreation($plustot), 0, "plus tôt devrait réussir");
+    }
+    
+    public function testNonValidDatecreationVisite(){
+        $demain = (new \DateTime())->add(new \DateInterval("P1D"));
+        $this->assertErrors($this->getVisite()->setDatecreation($demain), 1, "demain devrait échouer");
+        $plustard = (new \DateTime())->add(new \DateInterval("P5D"));
+        $this->assertErrors($this->getVisite()->setDatecreation($plustard), 1, "plus tard devrait échouer");
     }
     
     public function testNonValidTempmaxVisite(){
@@ -56,6 +77,12 @@ class VisiteValidationsTest extends KernelTestCase {
                 ->setTempmin(20)
                 ->setTempmax(18);
         $this->assertErrors($visite, 1, "min=20, max=18 devrait échouer");
+        $this->assertErrors($this->getVisite()->setTempmin(12)->setTempmax(12), 1, "min=12, max=12 devrait échouer");
+    }
+    
+    public function testValidTempmaxVisit(){
+        $this->assertErrors($this->getVisite()->setTempmin(14)->setTempmax(15), 1, "min=14, max=15 devrait réussir");
+        $this->assertErrors($this->getVisite()->setTempmin(6)->setTempmax(24), 1, "min=6, max=24 devrait réussir");
     }
     
 }

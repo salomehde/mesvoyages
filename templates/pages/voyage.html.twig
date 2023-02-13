@@ -20,9 +20,6 @@
         <div class="col">
             <!-- emplacement photo -->
             <div>
-                {{ form_row(formvisite.imageFile) }}
-            </div>
-            <div>
                 image actuelle
                 {% if visite.imagename %}
                     <img src="{{ app.request.getBasePath()~vich_uploader_asset(visite, 'imageFile') }}" 
